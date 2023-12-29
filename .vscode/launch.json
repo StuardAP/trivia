@@ -1,0 +1,17 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Dart Run All Tests",
+      "type": "dart",
+      "request": "launch",
+      "program": "./test",
+    },
+    {
+      "name": "Flutter",
+      "request": "launch",
+      "type": "dart",
+      "flutterMode": "profile"
+    }
+  ]
+}
