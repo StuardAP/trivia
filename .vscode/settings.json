@@ -6,5 +6,5 @@
         "source.formatOnSave": "explicit"
     },
     "editor.suggest.preview": true,
-    "editor.suggest.showStatusBar": true
+    "editor.suggest.showStatusBar": true,
 }
