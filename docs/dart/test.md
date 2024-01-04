@@ -14,6 +14,8 @@
 
 - `expect()` es un metodo de Mockito y se utiliza para verificar que el resultado de un metodo mock es el esperado.
 
+- `isA()` es un metodo de Mockito y se utiliza para verificar que el argumento de un metodo mock es del tipo esperado.
+
 ## Stubbing Asíncrono
 
 El uso de `thenReturn` para devolver un `Future` o `Stream` arrojará un error `ArgumentError`. Esto se debe a que dar lugar a comportamientos inesperados. Por ejemplo, si usas `thenReturn` para devolver un `Future` que se resuelve con un valor, el test se completará inmediatamente, incluso si el `Future` aún no se ha resuelto.
