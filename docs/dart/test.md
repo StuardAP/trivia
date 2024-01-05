@@ -12,6 +12,20 @@
 
 - `verify()` es un metodo de Mockito y se utiliza para verificar que un metodo mock fue llamado.
 
+```dart
+  test('should call MyService.method', ()   async {
+     final myService = MockService();
+     final myClass = MyClass(myService);
+
+     await myClass.doSomething();
+
+     verify(myService.method()).called(1);
+   });
+
+```
+
+- `verifyZeroInteractions()` es útil cuando quieras asegurarte que el objeto simulado no está siendo utilizado en absoluto durante la prueba.
+
 - `expect()` es un metodo de Mockito y se utiliza para verificar que el resultado de un metodo mock es el esperado.
 
 - `isA()` es un metodo de Mockito y se utiliza para verificar que el argumento de un metodo mock es del tipo esperado.
