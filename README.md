@@ -1,16 +1,7 @@
-# trivia
+# Trivia App
 
-A new Flutter project.
+## Architecture
 
-## Getting Started
+![Architecture](https://miro.medium.com/v2/resize:fit:1112/0*zUtZYiJ1bDTugOYY)
 
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+![Architecture](https://res.cloudinary.com/practicaldev/image/fetch/s--A_sf34Bv--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/e7251gtpuqjeibnm6xsu.jpg)
