@@ -18,64 +18,70 @@ const String INVALID_INPUT_FAILURE_MESSAGE =
     'Invalid Input - The number must be a positive integer or zero';
 
 class NumberTriviaBloc extends Bloc<NumberTriviaEvent, NumberTriviaState> {
-  final GetConcreteNumberTrivia getConcreteNumberTrivia;
-  final GetRandomNumberTrivia getRandomNumberTrivia;
-  final InputConverter inputConverter;
+ final GetConcreteNumberTrivia getConcreteNumberTrivia;
+ final GetRandomNumberTrivia getRandomNumberTrivia;
+ final InputConverter inputConverter;
 
-  NumberTriviaBloc({
-    required GetConcreteNumberTrivia concrete,
-    required GetRandomNumberTrivia random,
-    required this.inputConverter,
-  })  : getConcreteNumberTrivia = concrete,
-        getRandomNumberTrivia = random,
-        super(Empty()) {
-    on<GetTriviaForConcreteNumber>(_onGetForConcreteNumberTrivia);
-    on<GetTriviaForRandomNumber>(_onGetForRandomNumberTrivia);
-  }
+ NumberTriviaBloc({
+  required this.getConcreteNumberTrivia,
+  required this.getRandomNumberTrivia,
+  required this.inputConverter,
+ }) : super(Empty()) {
+   on<GetTriviaForConcreteNumber>(_onGetTriviaForConcreteNumber);
+   on<GetTriviaForRandomNumber>(_onGetTriviaForRandomNumber);
+ }
 
-  Future<void> _onGetForConcreteNumberTrivia(
-    GetTriviaForConcreteNumber event,
-    Emitter<NumberTriviaState> emit,
-  ) async {
-    final inputEither =
-        inputConverter.stringToUnsignedInteger(event.numberString);
-    await inputEither.fold(
-        (failure) async =>
-            emit(const Error(message: INVALID_INPUT_FAILURE_MESSAGE)),
-        (integer) async {
-      emit(Loading());
-      final failureOrTrivia =
-          await getConcreteNumberTrivia(Params(number: integer));
-      await _eitherLoadedOrErrorState(failureOrTrivia, emit);
-    });
-  }
+ Future<void> _onGetTriviaForConcreteNumber(
+   GetTriviaForConcreteNumber event,
+   Emitter<NumberTriviaState> emit,
+ ) async {
+   final inputEither =
+       inputConverter.stringToUnsignedInteger(event.numberString);
 
-  Future<void> _onGetForRandomNumberTrivia(
-    GetTriviaForRandomNumber event,
-    Emitter<NumberTriviaState> emit,
-  ) async {
-    emit(Loading());
-    final failureOrTrivia = await getRandomNumberTrivia(NoParams());
-    await _eitherLoadedOrErrorState(failureOrTrivia, emit);
-  }
+   await inputEither.fold(
+     (failure) async {
+       emit(const Error(message: INVALID_INPUT_FAILURE_MESSAGE));
+     },
+     (integer) async {
+       emit(Loading());
+       final failureOrTrivia =
+           await getConcreteNumberTrivia(Params(number: integer));
+       await _eitherLoadedOrErrorState(failureOrTrivia, emit);
+     },
+   );
+ }
 
-  Future<void> _eitherLoadedOrErrorState(
-    Either<Failure, NumberTrivia> failureOrTrivia,
-    Emitter<NumberTriviaState> emit,
-  ) async {
-    await failureOrTrivia.fold(
-        (failure) async => emit(Error(message: _mapFailureToMessage(failure))),
-        (trivia) async => emit(Loaded(trivia: trivia)));
-  }
+ Future<void> _onGetTriviaForRandomNumber(
+   GetTriviaForRandomNumber event,
+   Emitter<NumberTriviaState> emit,
+ ) async {
+   emit(Loading());
+   final failureOrTrivia = await getRandomNumberTrivia(NoParams());
+   await _eitherLoadedOrErrorState(failureOrTrivia, emit);
+ }
 
-  String _mapFailureToMessage(Failure failure) {
-    switch (failure.runtimeType) {
-      case ServerFailure:
-        return SERVER_FAILURE_MESSAGE;
-      case CacheFailure:
-        return CACHE_FAILURE_MESSAGE;
-      default:
-        return 'Unexpected Error';
-    }
-  }
+ Future<void> _eitherLoadedOrErrorState(
+   Either<Failure, NumberTrivia> failureOrTrivia,
+   Emitter<NumberTriviaState> emit,
+ ) async {
+   await failureOrTrivia.fold(
+     (failure) async {
+       emit(Error(message: _mapFailureToMessage(failure)));
+     },
+     (trivia) async {
+       emit(Loaded(trivia: trivia));
+     },
+   );
+ }
+
+ String _mapFailureToMessage(Failure failure) {
+   switch (failure.runtimeType) {
+     case ServerFailure:
+       return SERVER_FAILURE_MESSAGE;
+     case CacheFailure:
+       return CACHE_FAILURE_MESSAGE;
+     default:
+       return 'Unexpected error';
+   }
+ }
 }

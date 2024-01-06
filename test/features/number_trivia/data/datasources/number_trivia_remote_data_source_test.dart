@@ -42,7 +42,7 @@ void main() {
       // Act
       dataSourceImpl.getConcreteNumberTrivia(tNumber);
       // Assert
-      verifyNever(mockHttpClient.get(
+      verify(mockHttpClient.get(
         Uri.parse('http://numbersapi.com/$tNumber'),
         headers: {'Content-Type': 'application/json'},
       ));
@@ -71,7 +71,7 @@ void main() {
   });
 
   //! -----------------RANDOM NUMBER TRIVIA--------------------
-  group('getRandomNumberTrivia', () {
+    group('getRandomNumberTrivia', () {
     final tNumberTriviaModel =
         NumberTriviaModel.fromJson(json.decode(fixture('trivia.json')));
     test('''Should perform a GET request on URL with number
@@ -81,7 +81,7 @@ void main() {
       // Act
       dataSourceImpl.getRandomNumberTrivia();
       // Assert
-      verifyNever(mockHttpClient.get(
+      verify(mockHttpClient.get(
         Uri.parse('http://numbersapi.com/random'),
         headers: {'Content-Type': 'application/json'},
       ));

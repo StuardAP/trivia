@@ -1,7 +1,8 @@
 import 'package:get_it/get_it.dart';
+import 'package:http/http.dart' as http;
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:http/http.dart' as http;
+
 import 'core/network/network_info.dart';
 import 'core/utils/input_converter.dart';
 import 'features/number_trivia/data/datasources/number_trivia_local_data_source.dart';
@@ -14,10 +15,12 @@ import 'features/number_trivia/presentation/bloc/number_trivia_bloc.dart';
 
 final getIt = GetIt.instance;
 
-void init() async {
+Future<void> init() async {
   //! BLOC
   getIt.registerFactory(() => NumberTriviaBloc(
-      concrete: getIt(), random: getIt(), inputConverter: getIt()));
+      getConcreteNumberTrivia: getIt(),
+      getRandomNumberTrivia: getIt(),
+      inputConverter: getIt()));
 
   //! USESCASES
   getIt.registerLazySingleton(
